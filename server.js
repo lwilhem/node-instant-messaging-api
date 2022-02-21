@@ -8,5 +8,6 @@ server.on('listening', ()=>{
     const address = server.address()
     const bind = 'port : ' + port
     console.log(bind)
+    console.log(address)
 })
 server.listen(process.env.PORT ||3000 )
