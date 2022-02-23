@@ -4,23 +4,27 @@ const testRoutes = require('./route/post.route')
 const app = express()
 
 const mongoose = require('mongoose')
-mongoose.connect('mongodb+srv://user1:AYjrYjrKxHIimC85@cluster0.kvygz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',{
+mongoose.connect('mongodb+srv://user1:AYjrYjrKxHIimC85@cluster0.kvygz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
-    .then(()=>{console.log('ca marse')})
-    .catch(() => {console.log("bah bravo ta tout cassé nilss")})
+    .then(() => {
+        console.log('ca marse')
+    })
+    .catch(() => {
+        console.log("bah bravo ta tout cassé nilss")
+    })
 
-app.use((req,res,next)=> {
-    res.setHeader('Access-Control-Allow-Origin','*')
-    res.setHeader('Access-Control-Allow-Headers','Origin,X-Requested-With,Content,Accept,Content-Type,Authorization')
-    res.setHeader('Access-Control-Allow-Origin','GET,POST,PUT,DELETE')
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Headers', 'Origin,X-Requested-With,Content,Accept,Content-Type,Authorization')
+    res.setHeader('Access-Control-Allow-Origin', 'GET,POST,PUT,DELETE')
     next()
 })
 
 app.use(express.json())
 app.use(express.urlencoded({
-    extended:true
+    extended: true
 }))
 
 app.use('/test', testRoutes)

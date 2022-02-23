@@ -1,13 +1,37 @@
 const http = require('http')
 const app = require('./app')
-const port = (process.env.PORT||3000)
-app.set('port', port)
+const postController = require('./controller/post.constroller')
+const {Server} = require("socket.io");
+const port = (process.env.PORT || 3001)
 const server = http.createServer(app)
+const io = new Server(server, {
+    cors: {
+        origin: '*',
+    }
+})
 
-server.on('listening', ()=>{
+app.set('port', port)
+
+server.on('listening', () => {
     const address = server.address()
     const bind = 'port : ' + port
     console.log(bind)
     console.log(address)
 })
-server.listen(process.env.PORT ||3000 )
+
+io.on("connection", async (socket) => {
+    console.log('connect')
+    let data = await postController.getAllPost()
+    console.log('received')
+    socket.emit('received', data)
+
+    socket.on("message", async (arg) => {
+        console.log(arg)
+        await postController.createPost(arg)
+        data = await postController.getAllPost()
+        console.log(data)
+        io.emit('received', data)
+    })
+});
+
+server.listen(process.env.PORT || 3001)
