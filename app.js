@@ -1,5 +1,6 @@
 const express = require('express')
 const message = require('./model/schema')
+const authRoute = require('./route/AuthRouter')
 const testRoutes = require('./route/post.route')
 const app = express()
 
@@ -24,6 +25,8 @@ app.use(express.urlencoded({
 }))
 
 app.use('/test', testRoutes)
+app.use('/auth', authRoute)
+console.log('test')
 
 app.use((req, res) => {
     res.json({message: 'Ouvert'})
