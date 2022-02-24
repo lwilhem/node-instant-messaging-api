@@ -5,12 +5,11 @@ const testRoutes = require('./route/post.route')
 const app = express()
 
 const mongoose = require('mongoose')
+const jsonwebtoken = require('jsonwebtoken')
 mongoose.connect('mongodb+srv://user1:AYjrYjrKxHIimC85@cluster0.kvygz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',{
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
-    .then(()=>{console.log('ca marse')})
-    .catch(() => {console.log("bah bravo ta tout cassé nilss")})
 
 app.use((req,res,next)=> {
     res.setHeader('Access-Control-Allow-Origin','*')
@@ -26,7 +25,6 @@ app.use(express.urlencoded({
 
 app.use('/test', testRoutes)
 app.use('/auth', authRoute)
-console.log('test')
 
 app.use((req, res) => {
     res.json({message: 'Ouvert'})
