@@ -1,9 +1,11 @@
 const express = require('express')
 const message = require('./model/schema')
 const testRoutes = require('./route/post.route')
+const authRoute = require('./route/AuthRouter')
 const app = express()
 
 const mongoose = require('mongoose')
+const cors = require("cors");
 
 
 
@@ -25,7 +27,7 @@ var corsOptions = {
 
 }
 
-app.use(cors(),)
+app.use(cors())
 
 /* app.use((req,res,next)=> {
     res.setHeader('Access-Control-Allow-Origin','*')

@@ -23,14 +23,14 @@ io.on("connection", async (socket) => {
     console.log('connect')
     let data = await postController.getAllPost()
     console.log('received')
-    socket.emit('received', data)
+    await socket.emit('received', data)
 
     socket.on("message", async (arg) => {
         console.log(arg)
         await postController.createPost(arg)
         data = await postController.getAllPost().then( (a)=>{
+            // console.log(a)
             io.emit('received', a)
-            console.log(a)
         }
         )
         console.log('received')

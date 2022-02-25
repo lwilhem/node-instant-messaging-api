@@ -1,10 +1,10 @@
 const Post = require("../model/schema")
 
 module.exports.createPost = (data, res) => {
-    console.log('post test')
+    console.log('post message')
     const p = new Post({
         message: data.message,
-        author: 'bon'
+        author: data.author
     })
     p.save()
 }
