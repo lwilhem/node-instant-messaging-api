@@ -7,7 +7,6 @@ require('dotenv').config()
 
 module.exports.createUser = (req, res, next) => {
     console.log('Create User')
-
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
             console.log(hash)
