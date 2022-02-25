@@ -2,10 +2,11 @@ const express = require('express')
 const message = require('./model/schema')
 const authRoute = require('./route/AuthRouter')
 const testRoutes = require('./route/post.route')
+const authMiddleWare = require('./middleware/auth')
 const app = express()
 
 const mongoose = require('mongoose')
-const jsonwebtoken = require('jsonwebtoken')
+
 mongoose.connect('mongodb+srv://user1:AYjrYjrKxHIimC85@cluster0.kvygz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',{
     useNewUrlParser: true,
     useUnifiedTopology: true
