@@ -28,9 +28,12 @@ io.on("connection", async (socket) => {
     socket.on("message", async (arg) => {
         console.log(arg)
         await postController.createPost(arg)
-        data = await postController.getAllPost()
-        console.log(data)
-        io.emit('received', data)
+        data = await postController.getAllPost().then( (a)=>{
+            io.emit('received', a)
+            console.log(a)
+        }
+        )
+        console.log('received')
     })
 });
 
