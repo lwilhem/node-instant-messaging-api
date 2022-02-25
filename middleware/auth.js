@@ -1,34 +1,21 @@
-const express = require('express')
 const jwt = require('jsonwebtoken')
+const envProcess = require('dotenv')
 
-const app = express()
+envProcess.config()
 
-app.use(function(ctx, next){
-  return next().catch((err) => {
-    if (401 == err.status) {
-      ctx.status = 401;
-      ctx.body = 'Protected resource, use Authorization header to get access\n';
+module.exports.authMiddleWare = (req, res, next) => {
+  try{
+    const token = req.headers.authorization.split('')[1]
+    const decodedToken = jwt.verify(token, process.env.JWT_KEY)  
+    const userId = decodedToken.userId
+    if( req.body.userId && req.body.userId == userId ){
+      next()
     } else {
-      throw err;
+      throw 'Invalid  user ID'
     }
-  });
-});
-
-app.use(function(ctx, next){
-  if (ctx.url.match(/^\/public/)) {
-    ctx.body = 'unprotected\n';
-  } else {
-    return next();
-  }
-});
-
-app.use(jwt({ secret: 'shared-secret' }));
-
-app.use(function(ctx){
-  if (ctx.url.match(/^\/api/)) {
-    ctx.body = 'protected\n';
-  }
-});
-
-module.export = app
-
+  } catch ( error ) {
+    res.status(401).json({       
+      error: new Error('Invalid request!')     
+    });   
+  } 
+}

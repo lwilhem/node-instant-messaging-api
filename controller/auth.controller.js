@@ -25,7 +25,6 @@ module.exports.createUser = (req, res, next) => {
 }
 
 module.exports.authUser = (req, res, next) => {
-    //console.log('Auth User')
     user.findOne({username: req.body.username})
         .then( user => {
             if(user){
