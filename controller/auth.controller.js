@@ -17,31 +17,38 @@ module.exports.createUser = (req, res, next) => {
             })
             console.log(u)
             u.save()
-                .then(() => res.status(201).json({ message: 'Created User' }))
+                .then(() => res.status(201).json({message: 'Created User'}))
                 .catch(error => res.status(400).json({error}))
         })
         .catch(error => res.status(500).json({error}))
 }
 
 module.exports.authUser = (req, res, next) => {
-    user.findOne({username: req.body.username})
-        .then( user => {
-            if(user){
-                bcrypt.compare(req.body.password, user.password)
-                    .then(ok => {
-                        if(ok){
-                            res.status(200).json({
-                                id: user._id,
-                                token: jwt.sign({ id: user._id }, process.env.JWT_KEY, { expiresIn:'48h' }, { algorithm: 'RS256'})
-                            })
-                        }else{
-                            res.status(404).json({message: 'Incorrect Password'})
-                        }
-                    })
-            }else{
-                res.status(404).json({message: 'Incorrect User'})
-        }
-    })
+    if (req.body.username !== "" || req.body.password !== "") {
+        user.findOne({username: req.body.username})
+            .then(user => {
+                if (user) {
+                    bcrypt.compare(req.body.password, user.password)
+                        .then(response => {
+                            if (response) {
+                                // console.log(process.env.JWT_KEY)
+                                res.status(200).json({
+                                    id: user._id,
+                                    username: user.username,
+                                    token: jwt.sign({id: user._id}, 'bonjourCross', {expiresIn: '48h'}, {algorithm: 'RS256'})
+                                })
+                            } else {
+                                res.status(401).json({message: 'Incorrect Password'})
+                            }
+                        })
+                } else {
+                    res.status(401).json({message: 'Incorrect User'})
+                }
+            })
+    }
+    else {
+        res.status(401).json({message: 'bah alors nills on sait pas saisir des identifiant'})
+    }
 }
 
 

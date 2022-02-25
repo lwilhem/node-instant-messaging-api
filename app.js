@@ -14,9 +14,11 @@ mongoose.connect('mongodb+srv://user1:AYjrYjrKxHIimC85@cluster0.kvygz.mongodb.ne
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
+    .then(()=> console.log('ok'))
+    .catch(()=> console.log('nop'))
 
 var corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Access-Control-Allow-Headers','Origin,X-Requested-With,Content,Accept,Content-Type,Authorization'],
     
